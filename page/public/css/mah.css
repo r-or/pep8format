@@ -1,0 +1,19 @@
+body {
+  font-family: 'Lucida Console', monospace;
+  font-size: 1.2em;
+}
+h1 {
+  color: grey;
+  text-align: center;
+}
+p {
+  color: green;
+}
+textarea {
+  width: 45%;
+  font-size: 1.2em;
+  border: 1px solid #999999;
+}
+* {
+  box-sizing: border-box;
+}

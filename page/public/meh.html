@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/mah.css">
+  <meta charset="utf-8"/>
+  <title>PEP8format</title>
+</head>
+
+<body>
+
+  <h1>PEP8_format</h1>
+
+  <p>This will format any valid python code to PEP8 style using <a href=https://github.com/hhatto/autopep8>autopep8</a></p>
+
+  <p>Input your code:</p>
+  <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
+  <textarea id="codeoutput" rows=30 cols=100></textarea>
+
+  <p>whatever</p>
+
+  <script>
+    areaCodeInput = document.getElementById('codeinput')
+    areaCodeOutput = document.getElementById('codeoutput')
+    areaCodeInput.oninput = () => {
+      postData('/2pep', {txt: areaCodeInput.value})
+        .then(data => areaCodeOutput.value = data['result'])
+        .catch(error => console.error(error));
+    };
+  </script>
+
+  <script>
+    function postData(url = ``, data = {}) {
+      // Default options are marked with *
+      return fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+      })
+    .then(response => response.json()); // parses response to JSON
+  }
+  </script>
+
+</body>
+
+</html>
