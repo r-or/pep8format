@@ -3,6 +3,7 @@
 <head>
   <link rel="stylesheet" type="text/css" href="css/mah.css">
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PEP8format</title>
 </head>
 
@@ -10,13 +11,20 @@
 
   <h1>PEP8_format</h1>
 
-  <p>This will format any valid python code to PEP8 style using <a href=https://github.com/hhatto/autopep8>autopep8</a> as a backend service.</p>
+  <p>This will format any valid python code to PEP8 style using
+    <a href=https://github.com/hhatto/autopep8>autopep8</a> as a backend service.</p>
 
-  <p>Input your code:</p>
-  <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
-  <textarea id="codeoutput" rows=30 cols=100></textarea>
 
-  <p>whatever</p>
+  <div class="left">
+    <p>Input your code:</p>
+    <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
+  </div>
+  <div class="right">
+    <p>Output:</p>
+    <textarea id="codeoutput" rows=30 cols=100></textarea>
+  </div>
+
+  <p>more options to come!</p>
 
   <script>
     areaCodeInput = document.getElementById('codeinput')

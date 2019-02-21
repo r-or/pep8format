@@ -1,6 +1,6 @@
 body {
   font-family: 'Lucida Console', monospace;
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
 h1 {
   color: grey;
@@ -10,10 +10,27 @@ p {
   color: green;
 }
 textarea {
-  width: 45%;
-  font-size: 1.2em;
+  font-size: 1.0em;
   border: 1px solid #999999;
+  width: 100%;
 }
 * {
   box-sizing: border-box;
+}
+
+.left {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+.right {
+  float: right;
+  width: 50%;
+  padding: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .left, .right {
+    width: 100%;
+  }
 }
