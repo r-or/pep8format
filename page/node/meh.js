@@ -37,7 +37,8 @@ app.post('/2pep', (req, res) => {
       rclient.lpush('pep8jobs', 
         JSON.stringify({'id': uniqueID,
                         'lines': req.body.txt
-        }));
+      }));
+      console.log('Submitted job #' + uniqueID.toString() + '!');
     });
     rSubClient.on('error', (err) => {
       console.log('Subclient #' + uniqueID.toString() + ': error connecting to redis: ' + err);
