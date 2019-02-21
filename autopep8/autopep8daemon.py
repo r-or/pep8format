@@ -2,22 +2,31 @@
 import sys
 import os
 import json
+import time
 
 import autopep8
 from redis import Redis, RedisError
 
-
-redis = Redis()
-
+while True:
+    try:
+        redis = Redis(host='redis', port=6379)
+        break
+    except RedisError:
+        print('Cannot reach redis. Retry...')
+        time.sleep(.5)
+        continue
 try:
-    options = autopep8.parse_args([''])
     print('Waiting for pep8 jobs...')
     while (True):
-        job = json.loads(redis.brpop('pep8jobs')[1])
+        try:
+            job = json.loads(redis.brpop('pep8jobs')[1])
+        except RedisError:
+            print('Cannot reach redis. Retry...')
+            time.sleep(.5)
+            continue
         print('Working on job #{}'.format(job['id']))
         lines = job.pop('lines', None).replace('\r', '').split('\n')
-        job['result'] = autopep8.fix_lines(lines, options)
-        print(' result: ' + job['result'])
+        job['result'] = autopep8.fix_lines(lines, autopep8.parse_args(['']))
         redis.publish('pep8result#{}'.format(job['id']), json.dumps(job))
 except KeyboardInterrupt:
     pass

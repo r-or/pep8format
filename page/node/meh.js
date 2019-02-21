@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const redis = require('redis');
 
 const app = express();
-const rclient = redis.createClient();
+const rclient = redis.createClient({host: 'redis', port: 6379});
 rclient.on('connect', () => {
   console.log('Connected to redis!');
   rclient.set('pep8request-counter', 0);
@@ -18,14 +18,15 @@ app.use(bodyParser.json({limit: '5mb'}));
 app.use(express.static(path.join(__dirname, '../public')))
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/meh.html'))
+  res.sendFile(path.join(__dirname, '../public/meh.html'));
+  rclient.incr('page-counter', (err, cnt) => {
+    console.log('Page count: ' + cnt.toString());
+  });
 });
 
 app.post('/2pep', (req, res) => {
-  console.log('got this txt: ' + req.body.txt);
   rclient.incr('pep8request-counter', (err, uniqueID) => {
-    console.log('Got this id ' + uniqueID);
-    rSubClient = redis.createClient();
+    const rSubClient = redis.createClient({host: 'redis', port: 6379});
     rSubClient.subscribe('pep8result#' + uniqueID.toString());
     rSubClient.on('message', (chan, msg) => {
         var job = JSON.parse(msg);
@@ -37,7 +38,10 @@ app.post('/2pep', (req, res) => {
         JSON.stringify({'id': uniqueID,
                         'lines': req.body.txt
         }));
-    })
+    });
+    rSubClient.on('error', (err) => {
+      console.log('Subclient #' + uniqueID.toString() + ': error connecting to redis: ' + err);
+    });
   });
 })
 

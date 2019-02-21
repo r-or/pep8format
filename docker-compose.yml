@@ -1,0 +1,14 @@
+version: '3'
+services:
+  redis:
+    build: redis/
+    ports:
+      - "6379"
+  page:
+    build: page/
+    ports:
+      - "80:9000"
+  autopep8:
+    build: autopep8/
+    environment:
+     - PYTHONUNBUFFERED=1
