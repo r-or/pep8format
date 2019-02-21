@@ -30,6 +30,7 @@
     areaCodeInput = document.getElementById('codeinput')
     areaCodeOutput = document.getElementById('codeoutput')
     areaCodeInput.oninput = () => {
+      areaCodeOutput.value = 'waiting for request to be processed...';
       postData('/2pep', {txt: areaCodeInput.value})
         .then(data => areaCodeOutput.value = data['result'])
         .catch(error => console.error(error));
