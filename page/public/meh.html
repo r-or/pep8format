@@ -11,30 +11,61 @@
 
   <h1>PEP8_format</h1>
 
-  <p>This will format any valid python code to PEP8 style using
-    <a href=https://github.com/hhatto/autopep8>autopep8</a> as a backend service.</p>
+  <p>Online PEP8 converter: this will format any valid (or invalid) python code to PEP8 style using
+    <a href=https://github.com/hhatto/autopep8>autopep8</a> as a backend service.
+  </p>
 
+  <p>For reference, <a href=https://www.python.org/dev/peps/pep-0008/>PEP 8</a> is the famous python style guide
+    which you have to adhere to e.g. in case of contribution to cpython.
+  </p>
 
+  <!-- <p>Options:</p>
+  <p>
+    <label>
+      <input type="checkbox" id="chk-exp"/>
+      <span>experimental</span>
+    </label>
+  </p> -->
   <div class="left">
     <p>Input your code:</p>
     <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
   </div>
   <div class="right">
     <p>Output:</p>
-    <textarea id="codeoutput" rows=30 cols=100></textarea>
+    <textarea id="codeoutput" rows=30 cols=100 readonly></textarea>
   </div>
 
-  <p>more options to come!</p>
+  <p>More options to come!</p>
+
+  <p>Why this page?</p>
+  <p>Maybe you cannot use custom python modules in your production environment.
+    Maybe you still have to use a legacy version of python.
+    Maybe you just want to quickly format some code without having to install a tool to do it for you.
+  </p>
+  <p>Apart from that it is a nice project to play around with. I use node, redis, of course python and docker.
+    Check it out on <a href=https://github.com/r-or/pep8format>github</a>!
+  </p>
 
   <script>
     areaCodeInput = document.getElementById('codeinput')
     areaCodeOutput = document.getElementById('codeoutput')
     areaCodeInput.oninput = () => {
-      areaCodeOutput.value = 'waiting for request to be processed...';
+      areaCodeOutput.value = 'waiting for code to be formatted...';
       postData('/2pep', {txt: areaCodeInput.value})
-        .then(data => areaCodeOutput.value = data['result'])
+        .then(data => {
+          areaCodeOutput.value = data['result'];
+        })
         .catch(error => console.error(error));
     };
+    // catch TAB
+    areaCodeInput.onkeydown = (e) => {
+      if (e.keyCode == 9 || e.which == 9) {
+        e.preventDefault();
+        areaCodeInput.value = areaCodeInput.value.substring(0, areaCodeInput.selectionStart)
+          + "\t" + areaCodeInput.value.substring(areaCodeInput.selectionEnd);
+        areaCodeInput.selectionEnd = s + 1;
+      }
+    }
   </script>
 
   <script>

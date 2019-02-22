@@ -1,18 +1,23 @@
 body {
   font-family: 'Lucida Console', monospace;
   font-size: 1.0em;
+  background-color: rgb(28, 38, 48)
 }
 h1 {
-  color: grey;
+  color: rgb(140, 204, 110);
   text-align: center;
 }
 p {
-  color: green;
+  color: rgb(161, 184, 161);
+}
+a {
+  color: rgb(189, 143, 75);
 }
 textarea {
   font-size: 1.0em;
   border: 1px solid #999999;
   width: 100%;
+  background-color: rgb(161, 184, 161);
 }
 * {
   box-sizing: border-box;
@@ -29,7 +34,7 @@ textarea {
   padding: 10px;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
   .left, .right {
     width: 100%;
   }
