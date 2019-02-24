@@ -1,14 +1,19 @@
+:root {
+  --main-bg-col: rgb(28, 38, 48);
+  --main-fnt-col: rgb(161, 184, 161);
+}
+
 body {
   font-family: 'Lucida Console', monospace;
   font-size: 1.0em;
-  background-color: rgb(28, 38, 48)
+  background-color: var(--main-bg-col);
 }
 h1 {
   color: rgb(140, 204, 110);
   text-align: center;
 }
 p {
-  color: rgb(161, 184, 161);
+  color: var(--main-fnt-col);
 }
 a {
   color: rgb(189, 143, 75);
@@ -21,6 +26,28 @@ textarea {
 }
 * {
   box-sizing: border-box;
+}
+
+.button-grp .button {
+  background-color: var(--main-fnt-col);
+  color: var(--main-bg-col);
+  border-color: var(--main-fnt-col);
+  border: 1px solid;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+}
+
+.button-grp .buttonN {
+  background-color: var(--main-bg-col);
+  color: var(--main-fnt-col);
+  border-color: var(--main-fnt-col);
+  border: 1px solid;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  float: left;
 }
 
 .left {

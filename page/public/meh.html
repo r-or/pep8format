@@ -19,15 +19,24 @@
     which you have to adhere to e.g. in case of contribution to cpython.
   </p>
 
-  <!-- <p>Options:</p>
+  <p>Options:</p>
   <p>
     <label>
       <input type="checkbox" id="chk-exp"/>
       <span>experimental</span>
     </label>
-  </p> -->
+  </p>
+  <p>
+    <label>
+      <span>experimental</span>
+    </label>
+  </p>
+  <div class="button-grp" id="err-btns"></div>
+
+  <textarea id="dbg" rows=30 cols=100 readonly></textarea>
+
   <div class="left">
-    <p>Input your code:</p>
+    <p style="clear:both">Input your code:</p>
     <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
   </div>
   <div class="right">
@@ -35,7 +44,7 @@
     <textarea id="codeoutput" rows=30 cols=100 readonly></textarea>
   </div>
 
-  <p>More options to come!</p>
+  <p style="clear:both">More options to come!</p>
 
   <p>Why this page?</p>
   <p>Maybe you cannot use custom python modules in your production environment.
@@ -47,16 +56,23 @@
   </p>
 
   <script>
-    areaCodeInput = document.getElementById('codeinput')
-    areaCodeOutput = document.getElementById('codeoutput')
-    areaCodeInput.oninput = () => {
+    const errs = ["E101", "E2", "W602"];
+    var errsSelected = Array(errs.length).fill(true);
+    var areaCodeInput = document.getElementById('codeinput');
+    var areaCodeOutput = document.getElementById('codeoutput');
+    var dbg = document.getElementById('dbg');
+    function submitCode() {
       areaCodeOutput.value = 'waiting for code to be formatted...';
-      postData('/2pep', {txt: areaCodeInput.value})
-        .then(data => {
-          areaCodeOutput.value = data['result'];
-        })
-        .catch(error => console.error(error));
+      postData('/2pep',
+        {txt: areaCodeInput.value,
+         sel: errs.filter((x, i) => errsSelected[i])})
+      .then(data => {
+        areaCodeOutput.value = data['result'];
+      })
+      .catch(error => console.error(error));
     };
+
+    areaCodeInput.oninput = submitCode;
     // catch TAB
     areaCodeInput.onkeydown = (e) => {
       if (e.keyCode == 9 || e.which == 9) {
@@ -65,6 +81,19 @@
           + "\t" + areaCodeInput.value.substring(areaCodeInput.selectionEnd);
         areaCodeInput.selectionEnd = s + 1;
       }
+    }
+    // construct buttons
+    var errBtns = document.getElementById("err-btns");
+    for (var k = 0; k < errs.length; ++k) {
+      var btn = document.createElement("BUTTON");
+      btn.className = "button";
+      btn.onclick = (function(k) {return function() {
+        errsSelected[k] = !errsSelected[k];
+        submitCode();
+        this.className = errsSelected[k] ? "button" : "buttonN";
+      };})(k);
+      btn.appendChild(document.createTextNode(errs[k]));
+      errBtns.appendChild(btn);
     }
   </script>
 
