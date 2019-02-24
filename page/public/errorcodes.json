@@ -1,0 +1,246 @@
+{
+	"E101": {
+		"info": "Reindent all lines",
+		"default": true
+	},
+	"E11": {
+		"info": "Fix indentation",
+		"default": true
+	},
+	"E121": {
+		"info": "Fix indentation to be a multiple of four",
+		"default": true
+	},
+	"E122": {
+		"info": "Add absent indentation for hanging indentation",
+		"default": true
+	},
+	"E123": {
+		"info": "Align closing bracket to match opening bracket",
+		"default": true
+	},
+	"E124": {
+		"info": "Align closing bracket to match visual indentation",
+		"default": true
+	},
+	"E125": {
+		"info": "Indent to distinguish line from next logical line",
+		"default": true
+	},
+	"E126": {
+		"info": "Fix over-indented hanging indentation",
+		"default": true
+	},
+	"E127": {
+		"info": "Fix visual indentation",
+		"default": true
+	},
+	"E128": {
+		"info": "Fix visual indentation",
+		"default": true
+	},
+	"E129": {
+		"info": "Fix visual indentation",
+		"default": true
+	},
+	"E131": {
+		"info": "Fix hanging indent for unaligned continuation line",
+		"default": true
+	},
+	"E133": {
+		"info": "Fix missing indentation for closing bracket",
+		"default": true
+	},
+	"E20": {
+		"info": "Remove extraneous whitespace",
+		"default": true
+	},
+	"E211": {
+		"info": "Remove extraneous whitespace",
+		"default": true
+	},
+	"E22": {
+		"info": "Fix extraneous whitespace around keywords",
+		"default": true
+	},
+	"E224": {
+		"info": "Remove extraneous whitespace around operator",
+		"default": true
+	},
+	"E225": {
+		"info": "Fix missing whitespace around operator",
+		"default": true
+	},
+	"E226": {
+		"info": "Fix missing whitespace around arithmetic operator",
+		"default": true
+	},
+	"E227": {
+		"info": "Fix missing whitespace around bitwise/shift operator",
+		"default": true
+	},
+	"E228": {
+		"info": "Fix missing whitespace around modulo operator",
+		"default": true
+	},
+	"E231": {
+		"info": "Add missing whitespace",
+		"default": true
+	},
+	"E241": {
+		"info": "Fix extraneous whitespace around keywords",
+		"default": true
+	},
+	"E242": {
+		"info": "Remove extraneous whitespace around operator",
+		"default": true
+	},
+	"E251": {
+		"info": "Remove whitespace around parameter '=' sign",
+		"default": true
+	},
+	"E252": {
+		"info": "Missing whitespace around parameter equals",
+		"default": true
+	},
+	"E26": {
+		"info": "Fix spacing after comment hash for inline comments",
+		"default": true
+	},
+	"E265": {
+		"info": "Fix spacing after comment hash for block comments",
+		"default": true
+	},
+	"E266": {
+		"info": "Fix too many leading '#' for block comments",
+		"default": true
+	},
+	"E27": {
+		"info": "Fix extraneous whitespace around keywords",
+		"default": true
+	},
+	"E301": {
+		"info": "Add missing blank line",
+		"default": true
+	},
+	"E302": {
+		"info": "Add missing 2 blank lines",
+		"default": true
+	},
+	"E303": {
+		"info": "Remove extra blank lines",
+		"default": true
+	},
+	"E304": {
+		"info": "Remove blank line following function decorator",
+		"default": true
+	},
+	"E305": {
+		"info": "Expected 2 blank lines after end of function or class",
+		"default": true
+	},
+	"E306": {
+		"info": "Expected 1 blank line before a nested definition",
+		"default": true
+	},
+	"E401": {
+		"info": "Put imports on separate lines",
+		"default": true
+	},
+	"E402": {
+		"info": "Fix module level import not at top of fil",
+		"default": true
+	},
+	"E501": {
+		"info": "Try to make lines fit within --max-line-length characters",
+		"default": true
+	},
+	"E502": {
+		"info": "Remove extraneous escape of newline",
+		"default": true
+	},
+	"E701": {
+		"info": "Put colon-separated compound statement on separate lines",
+		"default": true
+	},
+	"E70": {
+		"info": "Put semicolon-separated compound statement on separate lines",
+		"default": true
+	},
+	"E711": {
+		"info": "Fix comparison with None",
+		"default": true
+	},
+	"E712": {
+		"info": "Fix comparison with boolean",
+		"default": true
+	},
+	"E713": {
+		"info": "Use 'not in' for test for membership",
+		"default": true
+	},
+	"E714": {
+		"info": "Use 'is not' test for object identity",
+		"default": true
+	},
+	"E721": {
+		"info": "Use \"isinstance()\" instead of comparing types directly",
+		"default": true
+	},
+	"E722": {
+		"info": "Fix bare except",
+		"default": true
+	},
+	"E731": {
+		"info": "Use a def when use do not assign a lambda expression",
+		"default": true
+	},
+	"W291": {
+		"info": "Remove trailing whitespace",
+		"default": true
+	},
+	"W292": {
+		"info": "Add a single newline at the end of the file",
+		"default": true
+	},
+	"W293": {
+		"info": "Remove trailing whitespace on blank line",
+		"default": true
+	},
+	"W391": {
+		"info": "Remove trailing blank lines",
+		"default": true
+	},
+	"W503": {
+		"info": "Fix line break before binary operator",
+		"default": true
+	},
+	"W504": {
+		"info": "Fix line break after binary operator",
+		"default": true
+	},
+	"W601": {
+		"info": "Use \"in\" rather than \"has_key()\"",
+		"default": true
+	},
+	"W602": {
+		"info": "Fix deprecated form of raising exception",
+		"default": true
+	},
+	"W603": {
+		"info": "Use \"!=\" instead of \"<>\"",
+		"default": true
+	},
+	"W604": {
+		"info": "Use \"repr()\" instead of backticks",
+		"default": true
+	},
+	"W605": {
+		"info": "Fix invalid escape sequence 'x'",
+		"default": true
+	},
+	"W690": {
+		"info": "Fix various deprecated code (via lib2to3).",
+		"default": true
+	}
+}

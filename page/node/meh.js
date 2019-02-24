@@ -34,9 +34,10 @@ app.post('/2pep', (req, res) => {
         res.send(msg);
       });
     rSubClient.on('connect', () => {
-      rclient.lpush('pep8jobs', 
+      rclient.lpush('pep8jobs',
         JSON.stringify({'id': uniqueID,
-                        'lines': req.body.txt
+                        'lines': req.body.txt,
+                        'select': req.body.sel
       }));
       console.log('Submitted job #' + uniqueID.toString() + '!');
     });

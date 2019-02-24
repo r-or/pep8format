@@ -4,8 +4,12 @@ import os
 import json
 import time
 
+import pprint
+
 import autopep8
 from redis import Redis, RedisError
+
+pp = pprint.PrettyPrinter()
 
 while True:
     try:
@@ -25,8 +29,13 @@ try:
             time.sleep(.5)
             continue
         print('Working on job #{}'.format(job['id']))
+        #pp.pprint(job)
+        # list of code lines:
         lines = job.pop('lines', None).replace('\r', '').split('\n')
-        job['result'] = autopep8.fix_lines(lines, autopep8.parse_args(['']))
+        options = autopep8.parse_args([''])
+        # set of selected errors/warnings:
+        options.select = {k for k in job.pop('select', None)}
+        job['result'] = autopep8.fix_lines(lines, options)
         redis.publish('pep8result#{}'.format(job['id']), json.dumps(job))
 except KeyboardInterrupt:
     pass

@@ -18,25 +18,28 @@
   <p>For reference, <a href=https://www.python.org/dev/peps/pep-0008/>PEP 8</a> is the famous python style guide
     which you have to adhere to e.g. in case of contribution to cpython.
   </p>
+  <br>
 
-  <p>Options:</p>
-  <p>
-    <label>
-      <input type="checkbox" id="chk-exp"/>
-      <span>experimental</span>
-    </label>
-  </p>
-  <p>
-    <label>
-      <span>experimental</span>
-    </label>
-  </p>
-  <div class="button-grp" id="err-btns"></div>
-
-  <textarea id="dbg" rows=30 cols=100 readonly></textarea>
+  <hr>
+  <h3>Options</h3>
+  <div style="float: left; padding: 0px 10px; width: 15%;">
+    <p style="text-align: right"><b><a href=https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes>selection</a></b></p>
+  </div>
+  <div style="float: left; width: 85%">
+    <div style="float: left; padding: 0px 10px">
+        <p><b>(</b></p>
+    </div>
+    <div class="button-grp" id="err-btns"></div>
+    <div style="float: left; padding: 0px 10px">
+        <p><b>)</b></p>
+    </div>
+  </div>
+  <br style="clear:both">
+  <hr>
+  <!-- <textarea id="dbg" rows=30 cols=100 readonly></textarea> -->
 
   <div class="left">
-    <p style="clear:both">Input your code:</p>
+    <p>Input your code:</p>
     <textarea id="codeinput" rows=30 cols=100 autofocus></textarea>
   </div>
   <div class="right">
@@ -56,45 +59,49 @@
   </p>
 
   <script>
-    const errs = ["E101", "E2", "W602"];
-    var errsSelected = Array(errs.length).fill(true);
-    var areaCodeInput = document.getElementById('codeinput');
-    var areaCodeOutput = document.getElementById('codeoutput');
-    var dbg = document.getElementById('dbg');
-    function submitCode() {
-      areaCodeOutput.value = 'waiting for code to be formatted...';
-      postData('/2pep',
-        {txt: areaCodeInput.value,
-         sel: errs.filter((x, i) => errsSelected[i])})
-      .then(data => {
-        areaCodeOutput.value = data['result'];
-      })
-      .catch(error => console.error(error));
-    };
+    fetch("errorcodes.json")
+    .then(response => response.json())
+    .then(errorcodes => {
+      const errs = Object.keys(errorcodes).sort();
+      var errsSelected = Array(errs.length).fill(true);
+      var areaCodeInput = document.getElementById('codeinput');
+      var areaCodeOutput = document.getElementById('codeoutput');
+      //var dbg = document.getElementById('dbg');
+      function submitCode() {
+        areaCodeOutput.value = 'waiting for code to be formatted...';
+        postData('/2pep',
+          {txt: areaCodeInput.value,
+          sel: errs.filter((x, i) => errsSelected[i])})
+        .then(data => {
+          areaCodeOutput.value = data['result'];
+        })
+        .catch(error => console.error(error));
+      };
 
-    areaCodeInput.oninput = submitCode;
-    // catch TAB
-    areaCodeInput.onkeydown = (e) => {
-      if (e.keyCode == 9 || e.which == 9) {
-        e.preventDefault();
-        areaCodeInput.value = areaCodeInput.value.substring(0, areaCodeInput.selectionStart)
-          + "\t" + areaCodeInput.value.substring(areaCodeInput.selectionEnd);
-        areaCodeInput.selectionEnd = s + 1;
+      areaCodeInput.oninput = submitCode;
+      // catch TAB
+      areaCodeInput.onkeydown = (e) => {
+        if (e.keyCode == 9 || e.which == 9) {
+          e.preventDefault();
+          areaCodeInput.value = areaCodeInput.value.substring(0, areaCodeInput.selectionStart)
+            + "\t" + areaCodeInput.value.substring(areaCodeInput.selectionEnd);
+          areaCodeInput.selectionEnd = s + 1;
+        }
       }
-    }
-    // construct buttons
-    var errBtns = document.getElementById("err-btns");
-    for (var k = 0; k < errs.length; ++k) {
-      var btn = document.createElement("BUTTON");
-      btn.className = "button";
-      btn.onclick = (function(k) {return function() {
-        errsSelected[k] = !errsSelected[k];
-        submitCode();
-        this.className = errsSelected[k] ? "button" : "buttonN";
-      };})(k);
-      btn.appendChild(document.createTextNode(errs[k]));
-      errBtns.appendChild(btn);
-    }
+      // construct buttons
+      var errBtns = document.getElementById("err-btns");
+      for (var k = 0; k < errs.length; ++k) {
+        var btn = document.createElement("BUTTON");
+        btn.className = "button";
+        btn.onclick = (function(k) {return function() {
+          errsSelected[k] = !errsSelected[k];
+          submitCode();
+          this.className = errsSelected[k] ? "button" : "buttonN";
+        };})(k);
+        btn.appendChild(document.createTextNode(errs[k]));
+        errBtns.appendChild(btn);
+      }
+    });
   </script>
 
   <script>
