@@ -41,7 +41,7 @@ textarea {
   background-color: var(--main-fnt-col);
   color: var(--main-bg-col);
   border: 1px solid var(--main-fnt-col);
-  padding: 12px 18px;
+  padding: 10px 15px;
   text-align: center;
   margin: 1px;
 }
@@ -50,29 +50,9 @@ textarea {
   background-color: var(--main-bg-col);
   color: var(--main-fnt-col);
   border: 1px solid var(--main-fnt-col);
-  padding: 12px 18px;
+  padding: 10px 15px;
   text-align: center;
   margin: 1px;
-}
-.button-nl {
-  font-family: var(--main-fnt);
-  background-color: var(--main-fnt-col);
-  color: var(--main-bg-col);
-  border: 1px solid var(--main-fnt-col);
-  padding: 12px 18px;
-  text-align: center;
-  margin: 1px;
-  display: block;
-}
-.buttonN-nl {
-  font-family: var(--main-fnt);
-  background-color: var(--main-bg-col);
-  color: var(--main-fnt-col);
-  border: 1px solid var(--main-fnt-col);
-  padding: 12px 18px;
-  text-align: center;
-  margin: 1px;
-  display: block;
 }
 
 .left50 {
@@ -95,7 +75,6 @@ textarea {
   width: 90%;
   padding: 0px 10px;
 }
-
 
 @media screen and (max-width: 1200px) {
   .left50, .right50, .left10, .right90 {
