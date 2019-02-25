@@ -22,16 +22,16 @@
 
   <hr>
   <h3>Options</h3>
-  <div class="left10">
-    <p><b><a href=https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes>selection</a></b></p>
+  <div class="left10" style="padding: 12px 10px">
+    <span><b><a href=https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes>selection</a></b></span>
   </div>
   <div class="right90">
-    <div style="float: left; padding: 0px 10px">
-        <p><b>(</b></p>
+    <div style="float: left; padding: 12px 10px">
+        <span><b>(</b></span>
     </div>
     <div class="button-grp" id="err-btns"></div>
-    <div style="float: left; padding: 0px 10px">
-        <p><b>)</b></p>
+    <div style="float: left; padding: 12px 10px">
+      <span><b>)</b></span>
     </div>
   </div>
   <br style="clear:both">
@@ -92,11 +92,20 @@
       var errBtns = document.getElementById("err-btns");
       for (var k = 0; k < errs.length; ++k) {
         var btn = document.createElement("BUTTON");
-        btn.className = "button";
+        if (k === 0 || errs[k - 1].slice(0, 2) != errs[k].slice(0, 2)) {
+          // newline button
+          btn.className = "button-nl";
+        } else {
+          btn.className = "button";
+        }
         btn.onclick = (function(k) {return function() {
           errsSelected[k] = !errsSelected[k];
           submitCode();
-          this.className = errsSelected[k] ? "button" : "buttonN";
+          if (this.className.endsWith('nl')) {
+            this.className = errsSelected[k] ? "button-nl" : "buttonN-nl";
+          } else {
+            this.className = errsSelected[k] ? "button" : "buttonN";
+          }
         };})(k);
         btn.appendChild(document.createTextNode(errs[k]));
         errBtns.appendChild(btn);

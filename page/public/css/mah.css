@@ -17,7 +17,7 @@ h1 {
 h3 {
   color: var(--main-header-col);
 }
-p {
+p, span {
   color: var(--main-fnt-col);
 }
 a {
@@ -41,10 +41,9 @@ textarea {
   background-color: var(--main-fnt-col);
   color: var(--main-bg-col);
   border: 1px solid var(--main-fnt-col);
-  padding: 12px 28px;
+  padding: 12px 18px;
   text-align: center;
   margin: 1px;
-  float: left;
 }
 .button-grp .buttonN {
   font-family: var(--main-fnt);
@@ -54,7 +53,26 @@ textarea {
   padding: 12px 18px;
   text-align: center;
   margin: 1px;
-  float: left;
+}
+.button-nl {
+  font-family: var(--main-fnt);
+  background-color: var(--main-fnt-col);
+  color: var(--main-bg-col);
+  border: 1px solid var(--main-fnt-col);
+  padding: 12px 18px;
+  text-align: center;
+  margin: 1px;
+  display: block;
+}
+.buttonN-nl {
+  font-family: var(--main-fnt);
+  background-color: var(--main-bg-col);
+  color: var(--main-fnt-col);
+  border: 1px solid var(--main-fnt-col);
+  padding: 12px 18px;
+  text-align: center;
+  margin: 1px;
+  display: block;
 }
 
 .left50 {
@@ -69,13 +87,13 @@ textarea {
 }
 .left10 {
   float: left;
-  width: 15%;
-  padding: 10px;
+  /* width: 10%; */
+  padding: 0px 10px;
 }
 .right90 {
-  float: right;
-  width: 85%;
-  padding: 10px;
+  float: left;
+  width: 90%;
+  padding: 0px 10px;
 }
 
 
@@ -83,5 +101,5 @@ textarea {
   .left50, .right50, .left10, .right90 {
     width: 100%;
   }
-  
+
 }
