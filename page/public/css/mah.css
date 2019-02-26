@@ -76,9 +76,9 @@ textarea {
   padding: 0px 10px;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 670px), 
+       screen and (orientation: portrait) {
   .left50, .right50, .left10, .right90 {
     width: 100%;
   }
-
 }
