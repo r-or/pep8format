@@ -3,6 +3,7 @@
   --main-fnt-col: rgb(161, 184, 161);
   --main-header-col: rgb(140, 204, 110);
   --main-fnt: 'Lucida Console', monospace;
+  --main-href-col: rgb(189, 143, 75);
 }
 
 body {
@@ -21,7 +22,7 @@ p, span {
   color: var(--main-fnt-col);
 }
 a {
-  color: rgb(189, 143, 75);
+  color: var(--main-href-col)
 }
 hr {
   border: 1px solid var(--main-fnt-col);
@@ -43,6 +44,7 @@ textarea {
   border: 1px solid var(--main-fnt-col);
   padding: 10px 15px;
   text-align: center;
+  cursor: pointer;
   margin: 1px;
 }
 .button-grp .buttonN {
@@ -52,7 +54,22 @@ textarea {
   border: 1px solid var(--main-fnt-col);
   padding: 10px 15px;
   text-align: center;
+  cursor: pointer;
   margin: 1px;
+}
+.brbutton {
+  line-height: 40px;
+}
+.fakehrefbutton {
+  font-family: var(--main-fnt);
+  background-color: var(--main-bg-col);
+  color: var(--main-href-col);
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  cursor: pointer;
+  margin: 1px;
+  float: left;
 }
 
 .left50 {
@@ -76,7 +93,7 @@ textarea {
   padding: 0px 10px;
 }
 
-@media screen and (max-width: 670px), 
+@media screen and (max-width: 1000px),
        screen and (orientation: portrait) {
   .left50, .right50, .left10, .right90 {
     width: 100%;

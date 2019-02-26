@@ -27,9 +27,10 @@
   </div>
   <div class="right90">
     <div style="float: left; padding: 10px 10px">
-        <span><b>(</b></span>
+      <span><b>(</b></span>
     </div>
-    <div class="button-grp" id="err-btns"></div>
+    <button id="options-selection" class="fakehrefbutton"><b>...</b></button>
+    <div class="button-grp" id="err-btns" style="float: none"></div>
     <div style="float: left; padding: 10px 10px">
       <span><b>)</b></span>
     </div>
@@ -58,27 +59,31 @@
     Check it out on <a href=https://github.com/r-or/pep8format>github</a>!
   </p>
 
+  <!-- main -->
   <script>
     fetch("errorcodes.json")
     .then(response => response.json())
     .then(errorcodes => {
       const errs = Object.keys(errorcodes).sort();
-      var errsSelected = Array(errs.length).fill(true);
+      var errsSelected = new Array(errs.length).fill(true);
+      var errBtnlist = new Array(errs.length);
       var areaCodeInput = document.getElementById('codeinput');
       var areaCodeOutput = document.getElementById('codeoutput');
-      //var dbg = document.getElementById('dbg');
-      function submitCode() {
-        areaCodeOutput.value = 'waiting for code to be formatted...';
-        postData('/2pep',
-          {txt: areaCodeInput.value,
-          sel: errs.filter((x, i) => errsSelected[i])})
-        .then(data => {
-          areaCodeOutput.value = data['result'];
-        })
-        .catch(error => console.error(error));
-      };
 
-      areaCodeInput.oninput = submitCode;
+      function submitCode() {
+        if (areaCodeInput.value) {
+          areaCodeOutput.value = 'waiting for code to be formatted...';
+          postData('/2pep',
+            {txt: areaCodeInput.value,
+            sel: errs.filter((x, i) => errsSelected[i])})
+          .then(data => {
+            areaCodeOutput.value = data['result'];
+          })
+          .catch(error => console.error(error));
+        }
+      };
+      const debouncedSubmit = debounce(submitCode, 500);
+      areaCodeInput.oninput = debouncedSubmit;
       // catch TAB
       areaCodeInput.onkeydown = (e) => {
         if (e.keyCode == 9 || e.which == 9) {
@@ -88,27 +93,71 @@
           areaCodeInput.selectionEnd = s + 1;
         }
       }
+      // OPTIONS - select
+      const errBtns = document.getElementById("err-btns");
+      const selBtn = document.getElementById("options-selection")
+      errBtns.style.display = "none"
+      selBtn.onclick = () => {
+        selBtn.remove();
+        errBtns.style.display = "block";
+      }
       // construct buttons
-      var errBtns = document.getElementById("err-btns");
       for (var k = 0; k < errs.length; ++k) {
-        var btn = document.createElement("BUTTON");
-        if (k > 0 && errs[k - 1].slice(0, 2) != errs[k].slice(0, 2)) {
-          // insert newline
-          errBtns.appendChild(document.createElement("BR"));
-          errBtns.appendChild(document.createElement("BR"));
+        var prefix = errs[k].slice(0, 2);
+        if (k === 0 || errs[k - 1].slice(0, 2) != prefix) {
+          if (k > 0) {
+            // insert newline
+            var br = document.createElement("BR");
+            br.className = "brbutton";
+            errBtns.appendChild(br);
+          }
+          var grpbtn = document.createElement("BUTTON");
+          grpbtn.className = "button";
+          grpbtn.state = true;
+          grpbtn.appendChild(document.createTextNode(prefix + " >"));
+          grpbtn.onclick = (function(k, prefix) {return function() {
+            this.state = !this.state;
+            this.className = this.state ? "button" : "buttonN";
+            errsSelected = errsSelected.map((x, i) => errs[i].startsWith(prefix) ? this.state : x);
+            debouncedSubmit();
+            for (var j = 0; j < errBtnlist.length; ++j) {
+              errBtnlist[j].className = errsSelected[j] ? "button" : "buttonN";
+            }
+          };})(k, prefix);
+          errBtns.appendChild(grpbtn);
         }
+        var btn = document.createElement("BUTTON");
         btn.className = "button";
         btn.onclick = (function(k) {return function() {
           errsSelected[k] = !errsSelected[k];
-          submitCode();
+          debouncedSubmit();
           this.className = errsSelected[k] ? "button" : "buttonN";
         };})(k);
         btn.appendChild(document.createTextNode(errs[k]));
         errBtns.appendChild(btn);
+        errBtnlist[k] = btn;
       }
     });
   </script>
 
+
+  <!-- debounce -->
+  <script>
+    function debounce(fn, delay) {
+      var timer;
+      return function(...args) {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+          fn(...args);
+          timer = null;
+        }, delay);
+      }
+    }
+  </script>
+
+  <!-- post -->
   <script>
     function postData(url = ``, data = {}) {
       // Default options are marked with *
