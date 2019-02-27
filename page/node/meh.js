@@ -15,7 +15,7 @@ rclient.on('error', (err) => {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, '../public'), {dotfiles: 'allow'}));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/meh.html'));
