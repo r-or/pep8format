@@ -13,14 +13,35 @@ rclient.on('error', (err) => {
   console.log('Error connecting to redis: ' + err);
 });
 
+const staticfileoptions = {
+  root: path.join(__dirname, '..', 'public'),
+  dotfiles: 'allow'
+};
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
-app.use(express.static(path.join(__dirname, '../public'), {dotfiles: 'allow'}));
+app.use(express.static('/', staticfileoptions));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/meh.html'));
-  rclient.incr('page-counter', (err, cnt) => {
-    console.log('Page count: ' + cnt.toString());
+  res.sendFile('meh.html', staticfileoptions, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    } else {
+      rclient.incr('page-counter', (err, cnt) => {
+      console.log('Page count: ' + cnt.toString());
+    }
+  });
+});
+
+// explicit router for cert challenge
+app.get('/.well-known/acme-challenge*', (req, res) => {
+  res.sendFile(req.url, staticfileoptions, (err) => {
+    if (err) {
+      console.log("Error while trying acme-challenge:");
+      console.log(err);
+      res.status(err.status).end();
+    }
   });
 });
 
@@ -46,5 +67,7 @@ app.post('/2pep', (req, res) => {
     });
   });
 })
+
+
 
 const server = app.listen(9000, () => console.log('Listening on port 9000...'));
