@@ -4,12 +4,11 @@ import os
 import json
 import time
 import traceback
-
 import pprint
 
+# external modules
 import autopep8
 from redis import Redis, RedisError
-
 
 while True:
     try:
