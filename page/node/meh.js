@@ -14,14 +14,16 @@ rclient.on('error', (err) => {
 });
 
 const staticfileoptions = {
-  root: path.join(__dirname, '..', 'public'),
+  root: path.join(__dirname, '..', 'public/'),
   dotfiles: 'allow'
 };
+console.log(staticfileoptions);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
-app.use(express.static('/', staticfileoptions));
+app.use(express.static(staticfileoptions['root'], staticfileoptions));
 
+// root page
 app.get('/', (req, res) => {
   res.sendFile('meh.html', staticfileoptions, (err) => {
     if (err) {
@@ -29,13 +31,14 @@ app.get('/', (req, res) => {
       res.status(err.status).end();
     } else {
       rclient.incr('page-counter', (err, cnt) => {
-      console.log('Page count: ' + cnt.toString());
+        console.log('Page count: ' + cnt.toString());
+      });
     }
   });
 });
 
-// explicit router for cert challenge
-app.get('/.well-known/acme-challenge*', (req, res) => {
+// explicit router for cert challenge -- TODO
+/*app.get('/.well-known/acme-challenge*', (req, res) => {
   res.sendFile(req.url, staticfileoptions, (err) => {
     if (err) {
       console.log("Error while trying acme-challenge:");
@@ -43,7 +46,7 @@ app.get('/.well-known/acme-challenge*', (req, res) => {
       res.status(err.status).end();
     }
   });
-});
+});*/
 
 app.post('/2pep', (req, res) => {
   rclient.incr('pep8request-counter', (err, uniqueID) => {
@@ -68,6 +71,8 @@ app.post('/2pep', (req, res) => {
   });
 })
 
+app.use((req, res, next) => {
+  res.status(404).end();
+})
 
-
-const server = app.listen(9000, () => console.log('Listening on port 9000...'));
+const server = app.listen(9080, () => console.log('Listening on port 9080...'));

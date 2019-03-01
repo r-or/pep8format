@@ -4,10 +4,15 @@ services:
     build: redis/
     ports:
       - "6379"
+
   page:
     build: page/
     ports:
-      - "80:9000"
+      - "80:9080"
+      - "443:9443"
+    volumes:
+      - ~/certs:/usr/certs
+
   autopep8:
     build: autopep8/
     environment:
