@@ -29,6 +29,13 @@ const staticfileoptions = {
   dotfiles: 'allow'
 };
 
+// middlewares
+app.use((req, res, next) => {
+  if (!req.secure) {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  next();
+});
 app.use(helmet());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
