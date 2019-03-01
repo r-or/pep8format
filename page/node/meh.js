@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const redis = require('redis');
 const fs = require('fs');
 const https = require('https');
+const helmet = require('helmet');
 
 const app = express();
 const rclient = redis.createClient({host: 'redis', port: 6379});
@@ -28,6 +29,7 @@ const staticfileoptions = {
   dotfiles: 'allow'
 };
 
+app.use(helmet());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(express.static(staticfileoptions['root'], staticfileoptions));
@@ -84,6 +86,9 @@ app.use((req, res, next) => {
   res.status(404).end();
 })
 
-const httpServer = app.listen(9080, () => console.log('Listening on port 9080...'));
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(9443, () => console.log('HTTPS listening on port 9443...'));
+app.listen(9080, () => {
+  console.log('HTTP listening on port 9080...')
+});
+https.createServer(credentials, app).listen(9443, () => {
+  console.log('HTTPS listening on port 9443...');
+});
