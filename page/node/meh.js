@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const redis = require('redis');
+const fs = require('fs');
+const https = require('https');
 
 const app = express();
 const rclient = redis.createClient({host: 'redis', port: 6379});
@@ -13,11 +15,18 @@ rclient.on('error', (err) => {
   console.log('Error connecting to redis: ' + err);
 });
 
+// certs
+const credentials = {
+  key: fs.readFileSync('/certs/privatekey.pem', 'utf8'),
+  cert: fs.readFileSync('/certs/cert.pem', 'utf8'),
+  ca: fs.readFileSync('/certs/chain.pem', 'utf8')
+};
+
+// static files
 const staticfileoptions = {
   root: path.join(__dirname, '..', 'public/'),
   dotfiles: 'allow'
 };
-console.log(staticfileoptions);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '5mb'}));
@@ -75,4 +84,6 @@ app.use((req, res, next) => {
   res.status(404).end();
 })
 
-const server = app.listen(9080, () => console.log('Listening on port 9080...'));
+const httpServer = app.listen(9080, () => console.log('Listening on port 9080...'));
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(9443, () => console.log('HTTPS listening on port 9443...'));

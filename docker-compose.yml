@@ -11,7 +11,7 @@ services:
       - "80:9080"
       - "443:9443"
     volumes:
-      - ~/certs:/usr/certs
+      - ~/certs:/certs
 
   autopep8:
     build: autopep8/
