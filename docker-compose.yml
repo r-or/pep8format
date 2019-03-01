@@ -11,7 +11,7 @@ services:
       - "80:9080"
       - "443:9443"
     volumes:
-      - ~/certs:/etc/letsencrypt/live/pep8format.com
+      - /etc/letsencrypt:/certs
 
   autopep8:
     build: autopep8/
