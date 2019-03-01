@@ -17,9 +17,8 @@ rclient.on('error', (err) => {
 
 // certs
 const credentials = {
-  key: fs.readFileSync('/certs/privatekey.pem', 'utf8'),
-  cert: fs.readFileSync('/certs/cert.pem', 'utf8'),
-  ca: fs.readFileSync('/certs/chain.pem', 'utf8')
+  key: fs.readFileSync('/certs/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/certs/fullchain.pem', 'utf8'),
 };
 
 // static files
